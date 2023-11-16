@@ -1,0 +1,35 @@
+# Tower Breakers
+import matplotlib.pyplot as plt
+
+def towerBreakers(n, m):
+    # Write your code here
+    import numpy as np
+    turns = 0
+    tower_set = {}
+    for x in range(n):
+        tower_set[x] = m
+    lista = list(tower_set.keys())
+ 
+    while any(v > 0 for v in tower_set.values()):
+        turns += 1
+        t = np.random.choice(lista)
+        p = np.random.randint(1,tower_set[t]+1)
+        tower_set[t] -= p
+        if tower_set[t] == 0:
+            lista.remove(t)
+
+    if turns % 2 == 0:
+        return 2, turns
+    else:
+        return 1, turns
+
+
+output = []
+for _ in range(9000):
+    n = 100
+    m = 60
+    (winner,turns) = towerBreakers(n, m)
+    output.append((winner, turns))
+    x_values, y_values = zip(*output)
+    winner_1_list = [y for (x,y) in output if x == 1] 
+plt.hist(winner_1_list,bins=50)
